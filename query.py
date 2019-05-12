@@ -18,29 +18,29 @@ init_app()
 # -----------------
 
 # Get the human with the id 2.
-q1 = None
+q1 = db.session.query(Human).filter_by(human_id=2).one()
 
 # Get the *first* animal with the species 'fish'
 
-q2 = None
+q2 = db.session.query(Animal).filter_by(animal_species="fish").first()
 
 # Get all of the animals for the human with the id 5 and the animal species 'dog'
-q3 = None
+q3 = Animal.query.filter((Animal.human_id==5) & (Animal.animal_species=="dog")).all()
 
 # Get all the animals that were born after 2015 (do not include animals without birth years).
-q4 = None
+q4 = Animal.query.filter((Animal.birth_year > 2015) & (Animal.birth_year != None)).all()
 
 # Find the humans with first names that start with 'J'
-q5 = None
+q5 = Human.query.filter(Human.fname.like('J%')).all()
 
 # Find all the animals without birth years in the database.
-q6 = None
+q6 = Animal.query.filter(Animal.birth_year==None).all()
 
 # Find all animals that are either fish or rabbits
-q7 = None
+q7 = Animal.query.filter((Animal.animal_species=='fish') | (Animal.animal_species=='rabbit')).all()
 
 # Find all the humans whose email addresses do not contain 'gmail'
-q8 = None
+q8 = Human.query.filter(db.not_(Human.email.contains('%gmail%'))).all()
 
 # ---------------------
 # PART THREE: FUNCTIONS
@@ -62,8 +62,16 @@ q8 = None
 #           Animal name (animal species)
 
 def print_directory():
-    """"""
-    pass
+    """Print a directory of Animals Database"""
+
+    directory = Human.query.all()
+
+    for i in range(len(directory)):
+        print(directory[i].fname, directory[i].lname)
+        for x in range(len(directory[i].pets)):
+            print("   {} ({})".format(directory[i].pets[x].name,
+                                    directory[i].pets[x].animal_species))
+        
 
 # 2. Write a function, get_animals_by_name, which takes in a string representing
 #    an animal name (or part of an animal name) and *returns a list* of Animal
