@@ -25,8 +25,8 @@ class Human(db.Model):
 
 
     def __repr__(self):
-        return "<human_id={}, fname={}, lname={}, email={}>,\n".format(
-            self.human_id, self.fname, self.lname, self.email)
+        return "<human_id={}, fname={}, lname={}, email={}>\n".format(
+            self.human_id, self.fname, self.lname, self.email) 
 
 class Animal(db.Model):
     """Animal model. Many-to-One Relationship"""

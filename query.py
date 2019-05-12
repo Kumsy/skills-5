@@ -62,7 +62,7 @@ q8 = Human.query.filter(db.not_(Human.email.contains('%gmail%'))).all()
 #           Animal name (animal species)
 
 def print_directory():
-    """Print a directory of Animals Database"""
+    """Print a directory of our Animals Database"""
 
     directory = Human.query.all()
 
@@ -78,13 +78,25 @@ def print_directory():
 #    objects whose names contain that string.
 
 def get_animals_by_name(name):
-    """"""
-    pass
+    """Get list of animal objects by passing an string arg"""
+
+    return Animal.query.filter(Animal.name.contains('%'+str(name)+'%')).all()
+    
+    
 
 # 3. Write a function, find_humans_by_animal_species, which takes in an animal
 #    species and *returns a list* of all of Human objects who have animals of
 #    that species.
 
 def find_humans_by_animal_species(species):
-    """"""
-    pass
+    """Get a list of human objects by passing an animal species string"""
+
+    pets = db.session.query(Animal).filter_by(animal_species=str(species)).all()
+    owners_list = []
+
+    for i in range(len(pets)):
+        if pets[i].owner not in owners_list:
+            owners_list.append(pets[i].owner)
+
+    return owners_list
+    
